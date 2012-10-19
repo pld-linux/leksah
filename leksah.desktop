@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Leksah
+GenericName=Haskell IDE
+Comment=The Haskell development environment
+Exec=leksah -d %F
+Icon=leksah
+Type=Application
+Categories=GTK;Development;X-DevelopmentTools;
+MimeType=text/x-haskell;text/x-literate-haskell;
