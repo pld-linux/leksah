@@ -11,9 +11,20 @@ Source2:	%{name}_loadsession.desktop
 Source3:	%{name}.xml
 Patch0:		haddock.patch
 URL:		http://leksah.org/
-BuildRequires:	ghc >= 6.12.3
+BuildRequires:	ghc >= 7.4
 BuildRequires:	rpmbuild(macros) >= 1.608
 BuildRequires:	desktop-file-utils
+#binary-shared ==0.8.*,
+#enumerator >=0.4.14 && <0.5,
+#gio >=0.12.2 && <0.13,
+#glib >=0.10 && <0.13,
+#gtk >=0.10 && <0.13,
+#gtksourceview2 >=0.10.0 && <0.13,
+#leksah-server >=0.12.1.2 && <0.13,
+#ltk >=0.12.1.0 && <0.13,
+#regex-tdfa ==1.1.*,
+#strict >=0.3.2 && <0.4,
+#utf8-string >=0.3.1.1 && <0.4
 %requires_releq	ghc
 Requires:	hicolor-icon-theme
 Requires:	leksah-server
@@ -25,17 +36,17 @@ Haskell. Leksah uses GTK+ as GUI Toolkit.
 
 %prep
 %setup -q
-%patch0
+%patch0 -p1
 
 %build
-runhaskell Setup.hs configure -v2 --enable-library-profiling \
+runhaskell Setup.lhs configure -v2 --enable-library-profiling \
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
 	--libexecdir=%{_libexecdir} \
 	--docdir=%{_docdir}/%{name}-%{version}
 
-runhaskell Setup.hs build
-runhaskell Setup.hs haddock --executables
+runhaskell Setup.lhs build
+runhaskell Setup.lhs haddock --executables
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -43,13 +54,13 @@ install -d $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/128x128/apps \
 	$RPM_BUILD_ROOT/%{_datadir}/mime/packages \
 	$RPM_BUILD_ROOT%{_libdir}/%{ghcdir}/package.conf.d
 
-runhaskell Setup.hs copy --destdir=$RPM_BUILD_ROOT
+runhaskell Setup.lhs copy --destdir=$RPM_BUILD_ROOT
 
 # work around automatic haddock docs installation
 rm -rf %{name}-%{version}-doc
 cp -a $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} %{name}-%{version}-doc
 
-runhaskell Setup.hs register \
+runhaskell Setup.lhs register \
 	--gen-pkg-config=$RPM_BUILD_ROOT/%{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
 
 install pics/leksah.png $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/128x128/apps/leksah.png
