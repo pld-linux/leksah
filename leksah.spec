@@ -36,7 +36,7 @@ Haskell. Leksah uses GTK+ as GUI Toolkit.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 runhaskell Setup.lhs configure -v2 --enable-library-profiling \
